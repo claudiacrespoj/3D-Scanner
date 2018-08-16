@@ -24,7 +24,7 @@ Window::~Window()
 {
     delete ui;
 }
-/******************************     ABRIR PUERTO DEL ARDUINO        ****************************/
+/******************************     Open Arduino port     ****************************/
 void Window::openSerialPort(){
     port->setBaudRate(9600);
     port->setFlowControl(QSerialPort::NoFlowControl);
@@ -32,7 +32,7 @@ void Window::openSerialPort(){
     port->setDataBits(QSerialPort::Data8);
     port->setStopBits(QSerialPort::OneStop);
 }
-/**************************     ESCRIBIR EN EL PUERTO, MOVER MOTOR        ************************/
+/**************************     Write to the port and move stepper motor      ************************/
 void Window::writeSerialPort(short forma){
     char *a;
     if(forma==1) a="f";
@@ -44,15 +44,15 @@ void Window::writeSerialPort(short forma){
     port->flush();
 
 }
-/******************************          INICIAR ESCANEO         ****************************/
+/******************************         Start Scan      ****************************/
 void Window::on_pushButton_clicked()
 {
     stopScan=false;
-    CvCapture* capture =cvCreateCameraCapture(0);   //Creo un objeto para capturar con Cámaras
-    cvSetCaptureProperty(capture,CV_CAP_PROP_FRAME_WIDTH,1280);     //Ancho de la imagen
-    cvSetCaptureProperty(capture,CV_CAP_PROP_FRAME_HEIGHT,720);     //Alto de la imagen
-    scanShape(capture);                 //ESCANEO DE FORMA
-    if(stopScan){                       //verifica si el objeto es inválido
+    CvCapture* capture =cvCreateCameraCapture(0);   //Create an objet to capture with camer
+    cvSetCaptureProperty(capture,CV_CAP_PROP_FRAME_WIDTH,1280);     //image width 
+    cvSetCaptureProperty(capture,CV_CAP_PROP_FRAME_HEIGHT,720);     //image height
+    scanShape(capture);                 //Scan Shape
+    if(stopScan){                       //Verify if object is valid
         stopScan=false;
         QMessageBox::warning(this,tr("Advertencia"),tr("Objeto invalido"));
         cvReleaseCapture(&capture);
@@ -87,7 +87,7 @@ void Window::on_pushButton_clicked()
     cvDestroyAllWindows();
 }
 
-/**************************     ESCANEO DE FORMA     *************************************/
+/**************************     Scan Shape     *************************************/
 void Window::scanShape(CvCapture *capture){
     writeSerialPort(1);
     cvWaitKey(2000);
@@ -96,45 +96,45 @@ void Window::scanShape(CvCapture *capture){
     for(int i=0;i<200;i++){
         int X=0;
         while(1) {
-            frame = cvQueryFrame(capture);  //captura foto con la cámara
-            cvWaitKey(33);                  //Retardo tiempo para cámaras de 30FPS
-            if(i==0){                       //Se espera 2seg para encender la cámara
+            frame = cvQueryFrame(capture);  //Take picture with camera
+            cvWaitKey(33);                  //Delay of 33 FPS
+            if(i==0){                       //Wait two seconds to turn camera on
                 X++;
-                if(X>=60) break;            //Cámara encendida, primera foto
+                if(X>=60) break;            //First pic with camera
             }
-            else break;                     //Cámara encendida, fotos 2 a 200
+            else break;                     //Camera on 2 to 200 pictures due to 200 stepper motor
         }
-        Perfil[i].minimalPts=false;         //Parámetro para verificar los puntos del perfil
-        Perfil[i].Scan3D(frame,i);          //Procesamiento del perfil
+        Perfil[i].minimalPts=false;         //Parameter to verify the points of profile
+        Perfil[i].Scan3D(frame,i);          //Proccess profile
         cout<<"\n\tFOTO >>>  "<<i;
-        if(Perfil[i].minimalPts) {          //Verifica los puntos del perfil
+        if(Perfil[i].minimalPts) {          //Verify profile points
             Perfil[i].minimalPts=false;
             stopScan=true;
             errorPos=i;
-            return;                         //Detiene el escaneo si el No. de puntos es menor al mínimo
+            return;                         //Stope the scan if the number of points is less than the minimum
         }
         verForma.setValue(i);
         writeSerialPort(2);
-        cvWaitKey(700);                     //Retardo de 500 ms
+        cvWaitKey(700);                     //delay 
     }
     writeSerialPort(3);
     cvWaitKey(2000);
     verForma.setValue(200);
 }
 
-/**************************     ESCANEO DE COLOR     *************************************/
+/**************************     Scan Color  *************************************/
 
 void Window::scanColor(CvCapture *capture){
     QProgressDialog verColor("Escaneando color...","Cancel",0,200,this);
     IplImage* frame;
     for(int i=0;i<200;i++){
-        cvWaitKey(33);                  //Retardo tiempo para cámaras de 30FPS
-        frame = cvQueryFrame(capture);  //Captura foto de la cámara
-        cvShowImage("Escaneo Color",frame);  //Muestra en pantalla la foto capturada
-        for(int j=0;j<60;j++){          //Extrae los datos de color del perfil
+        cvWaitKey(33);                  //RDelay of camerea 30 FPS
+        frame = cvQueryFrame(capture);  //Takes Picture with camera
+        cvShowImage("Escaneo Color",frame);  //display captured
+        for(int j=0;j<60;j++){          //Extract the pixel color values
             int x=cvGetReal2D(Perfil[i].colorData,j,0);
             int y=cvGetReal2D(Perfil[i].colorData,j,1);
-            Perfil[i].colores[j]=cvGet2D(frame,x,y);    //Se almacenan los datos de color
+            Perfil[i].colores[j]=cvGet2D(frame,x,y);    //Save the pixel colors in reference to profile
         }
         verColor.setValue(i);
         writeSerialPort(4);

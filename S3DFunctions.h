@@ -28,7 +28,7 @@ class ScanObj{
             return skel;
         }
 /**********************************************************************************************************
-***********************  Busca las posiciones de un punto con valor diferente de 0  ***********************
+*********************** Search for the Positions  of a point different than 0   ***********************
 **********************************************************************************************************/
         CvMat* posFind(IplImage* inImg,int inRow){
             CvMat* outPos=cvCreateMat(inRow,2,CV_64FC1);
@@ -54,7 +54,7 @@ class ScanObj{
 			return outPos;
         }
 /**********************************************************************************************************
-*********************Funcion que transforma las coordenadas de pixeles a milimetros************************
+*********************Transform the pixel coordinates to centimeters***********************
 **********************************************************************************************************/
         CvMat* pix2mm(CvMat* pixRow,CvMat* pixCol){
 			double radCoef[]={7.79532557748263*pow(10.0,-7),-0.00109437105325829,0.611308781228893,-0.0695838747184494};
@@ -82,34 +82,34 @@ class ScanObj{
 			CvMat* newPosData;
             newPosData=cvCreateMat(60,2,CV_64FC1);
             colorData=cvCreateMat(60,2,CV_64FC1);
-            IplImage* grayImg, *binImg,*proImg,*skImg;   //Declaracion de variables para almacenar imagenes"
-            grayImg= cvCreateImage(cvGetSize(colImg),IPL_DEPTH_8U,1);   //Se inicializa variable con el mismo tamaño de la original
-            cvCvtColor(colImg, grayImg, CV_BGR2GRAY);                   //La imagen es convertida a escala de grises
-            binImg= cvCreateImage(cvGetSize(colImg),IPL_DEPTH_8U,1);    //Se inicializa variable para la imagen binaria
-            proImg= cvCreateImage(cvGetSize(colImg),IPL_DEPTH_8U,1);    //Se inicializa variable para la imagen procesada
+            IplImage* grayImg, *binImg,*proImg,*skImg;   //Variable declaration to save images
+            grayImg= cvCreateImage(cvGetSize(colImg),IPL_DEPTH_8U,1);   //initialize variable with the same size as the original one
+            cvCvtColor(colImg, grayImg, CV_BGR2GRAY);                   //transform to gray scale
+            binImg= cvCreateImage(cvGetSize(colImg),IPL_DEPTH_8U,1);    //initialize binary image
+            proImg= cvCreateImage(cvGetSize(colImg),IPL_DEPTH_8U,1);    //initialize variables for processed image
             //cvAdaptiveThreshold(grayImg,binImg,255,CV_ADAPTIVE_THRESH_GAUSSIAN_C,CV_THRESH_BINARY);
             cout<<"\n\tBINARIZACION";
-            cvThreshold(grayImg,binImg,225,255,CV_THRESH_BINARY);       //Se binariza la imagen
-            IplConvKernel* modMat=cvCreateStructuringElementEx(7,7,1,1,CV_SHAPE_ELLIPSE,NULL);  //Se crea una máscara
-            cvMorphologyEx(binImg,proImg,NULL,modMat,CV_MOP_CLOSE,1);   //Se aplica una funcion CLOSE
+            cvThreshold(grayImg,binImg,225,255,CV_THRESH_BINARY);       //binarize image
+            IplConvKernel* modMat=cvCreateStructuringElementEx(7,7,1,1,CV_SHAPE_ELLIPSE,NULL);  //create mask
+            cvMorphologyEx(binImg,proImg,NULL,modMat,CV_MOP_CLOSE,1);  
             skImg= cvCreateImage(cvGetSize(colImg),IPL_DEPTH_8U,1);
-            skImg=skeleton(proImg);                        //Se esqueletiza la imagen
+            skImg=skeleton(proImg);                        //skel image to obtain shape
             cvShowImage("dickbutt",skImg);
             //cout<<"\n\tESQUELETIZACION";
             int *tamano;
-			tamano=new int (cvCountNonZero(skImg));              //Cuenta el numero pixeles con valores diferentes de 0
+			tamano=new int (cvCountNonZero(skImg));              //Count the number of pixel with value different than 0
             if(*tamano>1000) numPts=999;
             else numPts=*tamano;
 			delete tamano;
-            CvMat* posData=cvCreateMat(numPts,2,CV_64FC1);  //Se crea una matrix que almacenara las posiciones de los pixeles
-            posData=posFind(skImg,numPts);                 //Se hallan las posiciones de los pixeles del perfil
+            CvMat* posData=cvCreateMat(numPts,2,CV_64FC1);  //this matrix will save the position of the pixels
+            posData=posFind(skImg,numPts);                 //Calculate the position of the pixel
 			numPts=cvCountNonZero(posData)/2;
             cout<<"\n\tPUNTOS DEL PERFIL\t"<<numPts;
             if(numPts<60) {
                 minimalPts=true;
                 return;
             }
-            /****** Discretizacion de los datos *******/
+            /****** Discretization of data *******/
             double tempV=0,nivel[60],paso=(numPts-1)/59.0;
             for(int i=0;i<60;i++){
 				if(i==0) nivel[i]=0;
@@ -132,12 +132,12 @@ class ScanObj{
             /******************************************/
 			CvScalar refRow=cvScalar(cvGetReal2D(newPosData,0,0),0.0,0.0,0.0);
             CvScalar refCol=cvScalar(600.0,0.0,0.0,0.0);
-            CvMat* dataRow=cvCreateMat(60,1,CV_64FC1);  //Se crea una matrix que almacena las FILAS
-            CvMat* dataCol=cvCreateMat(60,1,CV_64FC1);  //Se crea una matrix que almacena las COLUMNAS
-			cvGetCol(newPosData,dataRow,0);                    //Se transfiere la información de las filas a un vector
-			cvGetCol(newPosData,dataCol,1);                    //Se transfiere la información de las columnas a un vector
-			cvSubS(dataRow,refRow,dataRow,NULL);            //Se restan los valores de fila con una referencia
-			cvSubS(dataCol,refCol,dataCol,NULL);            //Se restan los valores de fila con una referencia
+            CvMat* dataRow=cvCreateMat(60,1,CV_64FC1);  //this matrix will save rows
+            CvMat* dataCol=cvCreateMat(60,1,CV_64FC1);  //this matrix will save colums
+			cvGetCol(newPosData,dataRow,0);                    //transfer rows to a vector
+			cvGetCol(newPosData,dataCol,1);                    //transfer rows to a column
+			cvSubS(dataRow,refRow,dataRow,NULL);            //Substract row values with reference values
+			cvSubS(dataCol,refCol,dataCol,NULL);            //Substract column values with references vlues
 			//DESTRUCTION
 			cvReleaseImage( &grayImg );
 			cvReleaseImage( &proImg );
