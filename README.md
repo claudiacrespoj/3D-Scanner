@@ -10,19 +10,19 @@ This is a 3D Scanner built in C++ using **Open CV** library  and **OpenGL**
 
 **Mechanical Design** 	
 	To build the 3D scanner we used a wood disk with a radio of 150 mm to 		  place the object, there is an orifice in the middle of the disk where the axis of the motor will be placed 
-		![Disk](3D-Scanner/Pictures/Disk.png)
+		![Disk](Pictures/Disk.png)
 		***Camera Hook***
 This is where the camera will be placed with screws 
-![ camera hook](3D-Scanner/Pictures/camerahook.png)
+![ camera hook](Pictures/camerahook.png)
 	***Laser Hook***
 	Used to placed the laser
-	![Laser hook](3D-Scanner/Pictures/laserPlacement.png) 
+	![Laser hook](Pictures/laserPlacement.png) 
 	***Slider***
 This is build to slid the camera and the lase in the right angle 
-![Slider](3D-Scanner/Pictures/slider.png)
+![Slider](Pictures/slider.png)
 ***Ensemble***
 	How the ensemble piece looks like 
-	![Ensemble](3D-Scanner/Pictures/ensamble.png)
+	![Ensemble](Pictures/ensamble.png)
 	
 **Electronic Design**
 
