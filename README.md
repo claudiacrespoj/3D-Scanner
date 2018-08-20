@@ -63,7 +63,7 @@ Coordenates calculation
 ![img](http://www.sciweavers.org/tex2img.php?eq=%20X_%7Bd%7D%20%3D%20Px_%7Bd%7D%20-%20P_%7Bref%7D%0A&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
 
 Transformation distance from pixel to millimeter 
-![img](http://www.sciweavers.org/tex2img.php?eq=R%28X_%7Bd%7D%29%20%3D%20aX_%7B3%7D%5E%7Bd%7D%20%2B%20bX_%7B2%7D%5E%7Bd%7D%20%20%2B%20cX_%7Bd%7D%20%2Bd&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+>R(X_{d}) = aX_{3}^{d} + bX_{2}^{d}  + cX_{d} +d
 
 Radio of profile 
 ![img](http://www.sciweavers.org/tex2img.php?eq=R_%7BR%7D%20%3D%20%5Cfrac%7BR%7D%7Bcos%2818.44%29%7D&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
@@ -74,7 +74,7 @@ Conversion factor from pixels to milimeters (experimental)
 
 
 conversion from pixel to mm
-![img](http://www.sciweavers.org/tex2img.php?eq=F%28R_%7BR%7D%29%20%3D%20aR_%7B2%7D%5E%7BR%7D%20%2B%20bR_%7BR%7D%20%2B%20C&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
+F(R_{R}) = aR_{2}^{R} + bR_{R} + C
 
 Height of profile
 ![img](http://www.sciweavers.org/tex2img.php?eq=A%3D%20PY_%7Bd%7D%20%2A%20F&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0)
