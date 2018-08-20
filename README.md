@@ -58,17 +58,17 @@ Once we get all the points we used Bezier Surface to reconstruct the element we 
 
 ![](Pictures/esqueletizadaprofile.jpg.png) 
 
-After we calculate 
+
 Coordenates calculation
->X_{d} = Px_{d} - P_{ref}
+[img]http://www.sciweavers.org/tex2img.php?eq=%20X_%7Bd%7D%20%3D%20Px_%7Bd%7D%20-%20P_%7Bref%7D%0A&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0[/img]
 
 Transformation distance from pixel to millimeter 
->R(X_{d}) = aX_{3}^{d} + bX_{2}^{d}  + cX_{d} +d
+[img]http://www.sciweavers.org/tex2img.php?eq=R%28X_%7Bd%7D%29%20%3D%20aX_%7B3%7D%5E%7Bd%7D%20%2B%20bX_%7B2%7D%5E%7Bd%7D%20%20%2B%20cX_%7Bd%7D%20%2Bd&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0[/img]
 
 Radio of profile 
 >R_{R} = \frac{R}{cos(18.44)}
 
-Conversion factor from pixel to mm
+ConversR(X_{d}) = aX_{3}^{d} + bX_{2}^{d}  + cX_{d} +ion factor from pixel to mm
 >F_{d} = \frac{10mm}{PY_{d}}
 
 conversion from pixel to mm
@@ -78,8 +78,8 @@ Height of profile
 A= PY_{d} * F
  
 ## Results
-Image without processing
 
+Image without processing
 ![](Pictures/result.jpg) 
 
 Scan Result 
