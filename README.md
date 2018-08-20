@@ -73,7 +73,7 @@ Image without processing
 Scan Result 
 ![](Pictures/scanresult.png)
 
-Copy plastic 
+Point plastic 
 ![](Pictures/pointplastic.png)
 
 
