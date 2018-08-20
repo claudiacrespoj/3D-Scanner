@@ -40,5 +40,41 @@ For the 3D scanner we used the triangulation method if you know the distance bet
 
 Once we get all the points we used Bezier Surface to reconstruct the element we wanted to scan
 ![](https://upload.wikimedia.org/wikipedia/commons/e/ea/NURBS_3-D_surface.gif)
+
+## Calibration
+
+ Pattern utilized for calibration of the camera, each square is 5 mm x 5mm
+ 
+ ![calibration](Pictures/calibratepicture.png)
+
+**Skelotonized image of calibration**
+
+![](Pictures/esqueletizadaprofile.jpg.png) 
+
+After we calculate 
+Coordenates calculation
+>X_{d} = Px_{d} - P_{ref}
+Transformation distance from pixel to millimeter 
+>R(X_{d}) = aX_{3}^{d} + bX_{2}^{d}  + cX_{d} +d
+Radio of profile 
+>R_{R} = \frac{R}{cos(18.44)}
+Conversion factor from pixel to mm
+>F_{d} = \frac{10mm}{PY_{d}}
+conversion from pixel to mm
+>F(R_{R}) = aR_{2}^{R} + bR_{R} + C
+Height of profile
+A= PY_{d} * F
  
 ## Results
+Image without processing
+
+![](Pictures/result.jpg) 
+
+Scan Result 
+![](Pictures/scanresult.png)
+
+Copy plastic 
+![](Pictures/pointplastic.png)
+
+
+
