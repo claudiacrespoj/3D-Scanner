@@ -358,5 +358,5 @@ void GLWidget::cargarArchivo(){
     datoGL.read((char *) &perfil,sizeof perfil);
     datoGL.close();
     fileChar=true;
-    updateGL();
+    updateGL();//test
 }
